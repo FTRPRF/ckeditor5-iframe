@@ -1,0 +1,17 @@
+{
+	"plugins": [
+		{
+			"name": "Iframe",
+			"className": "Iframe",
+			"description": "Adds an iframe to the editor.",
+			"path": "src/iframe.js",
+			"uiComponents": [
+				{
+					"name": "iframeButton",
+					"type": "Button",
+					"iconPath": "theme/icons/ckeditor.svg"
+				}
+			]
+		}
+	]
+}
