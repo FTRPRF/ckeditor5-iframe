@@ -1,11 +1,11 @@
 import { Iframe as IframeDll, icons } from '../src';
-import Iframe from '../src/iframe';
+import IFrame from '../src/IFrame';
 
 import ckeditor from './../theme/icons/ckeditor.svg';
 
-describe( 'CKEditor5 Iframe DLL', () => {
-	it( 'exports Iframe', () => {
-		expect( IframeDll ).to.equal( Iframe );
+describe( 'CKEditor5 IFrame DLL', () => {
+	it( 'exports IFrame', () => {
+		expect( IframeDll ).to.equal( IFrame );
 	} );
 
 	describe( 'icons', () => {

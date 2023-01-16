@@ -2,13 +2,13 @@ import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
 import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
 import Heading from '@ckeditor/ckeditor5-heading/src/heading';
 import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
-import Iframe from '../src/iframe';
+import IFrame from '../src/IFrame';
 
 /* global document */
 
-describe( 'Iframe', () => {
+describe( 'IFrame', () => {
 	it( 'should be named', () => {
-		expect( Iframe.pluginName ).to.equal( 'Iframe' );
+		expect( IFrame.pluginName ).to.equal( 'IFrame' );
 	} );
 
 	describe( 'init()', () => {
@@ -23,7 +23,7 @@ describe( 'Iframe', () => {
 					Paragraph,
 					Heading,
 					Essentials,
-					Iframe
+					IFrame
 				],
 				toolbar: [
 					'iframeButton'
@@ -36,10 +36,10 @@ describe( 'Iframe', () => {
 			return editor.destroy();
 		} );
 
-		it( 'should load Iframe', () => {
-			const myPlugin = editor.plugins.get( 'Iframe' );
+		it( 'should load IFrame', () => {
+			const myPlugin = editor.plugins.get( 'IFrame' );
 
-			expect( myPlugin ).to.be.an.instanceof( Iframe );
+			expect( myPlugin ).to.be.an.instanceof( IFrame );
 		} );
 
 		it( 'should add an icon to the toolbar', () => {
