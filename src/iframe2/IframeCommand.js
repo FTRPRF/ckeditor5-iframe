@@ -60,7 +60,7 @@ export default class IframeCommand extends Command {
 		this.isEnabled = true;
 	}
 
-	execute( { advisoryTitle, alignment, height, longDescription, name, url, width } ) {
+	execute( { advisoryTitle, alignment, height, longDescription, name, showBorders, showScrollbars, url, width } ) {
 		const model = this.editor.model;
 		const selection = model.document.selection;
 
@@ -77,6 +77,8 @@ export default class IframeCommand extends Command {
 				attributes.set( 'height', height );
 				attributes.set( 'longDescription', longDescription );
 				attributes.set( 'name', name );
+				attributes.set( 'showBorders', showBorders );
+				attributes.set( 'showScrollbars', showScrollbars );
 				attributes.set( 'url', url );
 				attributes.set( 'width', width );
 

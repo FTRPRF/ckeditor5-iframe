@@ -19,9 +19,6 @@ export default class IframeUI extends Plugin {
 		// Create the balloon and the form view.
 		this._balloon = this.editor.plugins.get( ContextualBalloon );
 		this.formView = this._createFormView();
-		this.alignment = '';
-		this.showScrollBars = '';
-		this.showBorders = '';
 
 		editor.ui.componentFactory.add( 'iframe', () => {
 			const button = new ButtonView();
@@ -41,19 +38,21 @@ export default class IframeUI extends Plugin {
 
 	_createFormView() {
 		const editor = this.editor;
-		const formView = new FormView( editor.locale, editor );
+		const formView = new FormView( editor.locale, this );
 
 		// Execute the command after clicking the "Save" button.
 		this.listenTo( formView, 'submit', () => {
 			// Grab values from the iframe fields.
 			const value = {
 				advisoryTitle: formView.advisoryTitleInput.fieldView.element.value,
-				alignment: formView.alignmentDropdown.listView.element.value,
+				alignment: formView.alignment,
 				height: formView.heightInput.fieldView.element.value,
 				longDescription: formView.longDescriptionInput.fieldView.element.value,
 				name: formView.nameInput.fieldView.element.value,
+				showBorders: formView.showBorders,
+				showScrollbars: formView.showScrollbars,
 				url: formView.urlInput.fieldView.element.value,
-				width: formView.widthInput.fieldView.element.value,
+				width: formView.widthInput.fieldView.element.value
 			};
 
 			editor.execute( 'addIframe', value );
@@ -89,43 +88,46 @@ export default class IframeUI extends Plugin {
 
 		// Fill the form using the state (value) of the command.
 		if ( commandValue ) {
+			this.formView.advisoryTitleInput.fieldView.value = commandValue.advisoryTitle;
+			this.formView.alignment = commandValue.alignment;
+			this.formView.alignmentDropdown.listView.element.value = commandValue.alignment;
+			this.formView.heightInput.fieldView.value = commandValue.height;
+			this.formView.longDescriptionInput.fieldView.value = commandValue.longDescription;
+			this.formView.nameInput.fieldView.value = commandValue.name;
+			this.formView.showBorderToggle.element.setAttribute( 'aria-pressed', ( commandValue.showBorders ? 'true' : 'false' ) );
+			this.formView.showBorders = Boolean( commandValue.showBorders );
+			if ( commandValue.showBorders ) {
+				this.formView.showBorderToggle.element.classList.add( 'ck-on' );
+				this.formView.showBorderToggle.element.classList.remove( 'ck-off' );
+			}
+			this.formView.showScrollbarsToggle.element.setAttribute( 'aria-pressed', ( commandValue.showScrollbars ? 'true' : 'false' ) );
+			this.formView.showScrollbars = Boolean( commandValue.showScrollbars );
+			if ( commandValue.showScrollbars ) {
+				this.formView.showScrollbarsToggle.element.classList.add( 'ck-on' );
+				this.formView.showScrollbarsToggle.element.classList.remove( 'ck-off' );
+			}
 			this.formView.urlInput.fieldView.value = commandValue.url;
 			this.formView.widthInput.fieldView.value = commandValue.width;
-			this.formView.heightInput.fieldView.value = commandValue.height;
-			this.formView.alignmentDropdown.listView.element.value = commandValue.alignment;
-			this.formView.nameInput.fieldView.value = commandValue.name;
-			this.formView.advisoryTitleInput.fieldView.value = commandValue.advisoryTitle;
-			this.formView.longDescriptionInput.fieldView.value = commandValue.longDescription;
 		}
 
 		this.formView.focus();
 	}
 
 	_hideUI( formView ) {
-		// Grab values from the iframe fields.
-		const value = {
-			url: formView.urlInput.fieldView.element.value,
-			width: formView.widthInput.fieldView.element.value,
-			height: formView.heightInput.fieldView.element.value,
-			alignment: formView.alignmentDropdown.listView.element.value,
-			name: formView.nameInput.fieldView.element.value,
-			advisoryTitle: formView.advisoryTitleInput.fieldView.element.value,
-			longDescription: formView.longDescriptionInput.fieldView.element.value,
-		};
-
-		// eslint-disable-next-line no-undef
-		console.log( { value } );
-
 		// Clear the input field values and reset the form.
-		this.formView.urlInput.fieldView.value = '';
-		this.formView.widthInput.fieldView.value = '';
-		this.formView.heightInput.fieldView.value = '';
-		this.formView.alignmentDropdown.listView.element.value = '';
-		this.formView.nameInput.fieldView.value = '';
-		this.formView.advisoryTitleInput.fieldView.value = '';
-		this.formView.longDescriptionInput.fieldView.value = '';
+		formView.advisoryTitleInput.fieldView.element.value = '';
+		formView.alignmentDropdown.buttonView.label = 'Alignment';
+		formView.heightInput.fieldView.element.value = '';
+		formView.longDescriptionInput.fieldView.element.value = '';
+		formView.nameInput.fieldView.element.value = '';
+		formView.showBorderToggle.element.setAttribute( 'aria-pressed', 'false' );
+		formView.showBorderToggle.element.classList.remove( 'ck-on' );
+		formView.showScrollbarsToggle.element.setAttribute( 'aria-pressed', 'false' );
+		formView.showScrollbarsToggle.element.classList.remove( 'ck-on' );
+		formView.urlInput.fieldView.element.value = '';
+		formView.widthInput.fieldView.element.value = '';
 
-		this._balloon.remove( this.formView );
+		this._balloon.remove( formView );
 
 		// Focus the editing view after inserting the iframe so the user can start typing the content
 		// right away and keep the editor focused.
@@ -135,10 +137,9 @@ export default class IframeUI extends Plugin {
 	_getBalloonPositionData() {
 		const view = this.editor.editing.view;
 		const viewDocument = view.document;
-		let target = null;
 
 		// Set a target position by converting view selection range to DOM
-		target = () => view.domConverter.viewRangeToDom( viewDocument.selection.getFirstRange() );
+		const target = () => view.domConverter.viewRangeToDom( viewDocument.selection.getFirstRange() );
 
 		return {
 			target

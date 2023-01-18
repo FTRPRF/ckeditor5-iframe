@@ -21,7 +21,17 @@ export default class IframeEditing extends Plugin {
 		// Extend the text node's schema to accept the abbreviation attribute.
 		schema.register( 'iframe', {
 			inheritAllFrom: '$blockObject',
-			allowAttributes: [ 'abbreviation', 'url', 'width', 'height', 'name', 'advisoryTitle', 'longDescription' ]
+			allowAttributes: [
+				'advisoryTitle',
+				'alignment',
+				'height',
+				'longDescription',
+				'name',
+				'showBorders',
+				'showScrollbars',
+				'url',
+				'width'
+			]
 		} );
 	}
 	_defineConverters() {
@@ -31,21 +41,43 @@ export default class IframeEditing extends Plugin {
 		conversion.for( 'downcast' ).elementToElement( {
 			model: {
 				name: 'iframe',
-				attributes: [ 'url', 'width', 'height', 'name', 'advisoryTitle', 'longDescription' ]
+				attributes: [
+					'advisoryTitle',
+					'alignment',
+					'height',
+					'longDescription',
+					'name',
+					'showBorders',
+					'showScrollbars',
+					'url',
+					'width'
+				]
 			},
 
 			// // Callback function provides access to the model attribute value
 			// // and the DowncastWriter
 			view: ( modelElement, { writer: downcastWriter } ) => {
-				// eslint-disable-next-line no-undef
-				console.log( { downcastWriter } );
+				const alignment = modelElement.getAttribute( 'alignment' );
+				const showBorders = modelElement.getAttribute( 'showBorders' );
+				const showScrollbars = modelElement.getAttribute( 'showScrollbars' );
+				const classNames = [
+					'ck ck-iframe',
+					( alignment ? ` ck-iframe-${ alignment }` : '' ),
+					( showBorders ? '' : ' ck-iframe-showNoBorders' ),
+					( showScrollbars ? '' : ' ck-iframe-showNoScrollbars' )
+				].join( ' ' );
+
 				return downcastWriter.createContainerElement( 'iframe', {
-					src: modelElement.getAttribute( 'url' ),
-					width: modelElement.getAttribute( 'width' ),
+					class: classNames,
+					'data-alignment': alignment,
+					'data-showBorders': showBorders,
+					'data-showScrollbars': modelElement.getAttribute( 'showScrollbars' ),
 					height: modelElement.getAttribute( 'height' ),
-					name: modelElement.getAttribute( 'name' ),
 					longDescription: modelElement.getAttribute( 'longDescription' ),
-					class: 'ck ck-iframe'
+					name: modelElement.getAttribute( 'name' ),
+					src: modelElement.getAttribute( 'url' ),
+					title: modelElement.getAttribute( 'advisoryTitle' ),
+					width: modelElement.getAttribute( 'width' )
 				} );
 			}
 		} );
@@ -56,15 +88,29 @@ export default class IframeEditing extends Plugin {
 				name: 'iframe',
 				key: 'class',
 				value: 'ck-iframe',
-				attributes: [ 'src', 'width', 'height', 'name', 'longDescription' ]
+				attributes: [
+					'data-alignment',
+					'data-showBorders',
+					'data-showScrollbars',
+					'height',
+					'longDescription',
+					'name',
+					'src',
+					'title',
+					'width'
+				]
 			},
 			model: ( viewElement, { writer: upcastWriter } ) => {
 				return upcastWriter.createContainerElement( 'iframe', {
-					url: viewElement.getAttribute( 'src' ),
-					width: viewElement.getAttribute( 'width' ),
+					advisoryTitle: viewElement.getAttribute( 'title' ),
+					alignment: viewElement.getAttribute( 'data-alignment' ),
 					height: viewElement.getAttribute( 'height' ),
+					longDescription: viewElement.getAttribute( 'longDescription' ),
 					name: viewElement.getAttribute( 'name' ),
-					longDescription: viewElement.getAttribute( 'longDescription' )
+					showBorders: viewElement.getAttribute( 'data-showBorders' ),
+					showScrollbars: viewElement.getAttribute( 'data-showScrollbars' ),
+					url: viewElement.getAttribute( 'src' ),
+					width: viewElement.getAttribute( 'width' )
 				} );
 			}
 		} );

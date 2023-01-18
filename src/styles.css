@@ -1,0 +1,79 @@
+.ck.ck-iframe-wrapper {
+	padding: 2rem 1rem 0;
+}
+
+.ck.ck-iframe {
+	border: none;
+	display: block;
+	overflow: auto;
+}
+
+.ck.ck-iframe.ck-iframe-showNoBorders {
+	border: 1px solid #333;
+}
+
+.ck.ck-iframe.ck-iframe-showNoScrollbars {
+	overflow: hidden;
+}
+
+.ck.ck-iframe.ck-iframe-middle {
+	margin: 2rem auto;
+}
+
+.ck.ck-iframe.ck-iframe-left {
+	margin-right: auto;
+}
+
+.ck.ck-iframe.ck-iframe-right {
+	margin-left: auto;
+}
+
+.ck.ck-iframe-url input,
+.ck.ck-iframe-longdesc input {
+	width: 100%;
+}
+
+.ck.ck-iframe-2nd-row,
+.ck.ck-iframe-3d-row,
+.ck.ck-iframe-4th-row {
+	display: flex;
+	gap: 1rem;
+}
+
+.ck.ck-iframe-4th-row > *,
+.ck.ck-iframe-4th-row .ck-input-text {
+	width: 100%;
+}
+
+.ck.ck-iframe-row {
+	margin: 1rem 0;
+}
+
+.ck.ck-iframe-button-row {
+	display: flex;
+	gap: 1rem;
+	justify-content: flex-end;
+	margin: 2rem 0 .25rem;
+}
+
+.ck.ck-iframe-button-row .ck.ck-button {
+	border-left: 4px solid transparent;
+}
+
+.ck.ck-iframe-button-row .ck.ck-iframe-button-ok:focus {
+	--ck-focus-ring: 3px solid var(--ck-color-button-save);
+	border-left: 3px solid var(--ck-color-button-save);
+}
+
+.ck.ck-iframe-button-row .ck.ck-iframe-button-ok:hover:not(:focus) {
+	border-left: 4px solid var(--ck-color-button-save);
+}
+
+.ck.ck-iframe-button-row .ck.ck-iframe-button-cancel:focus {
+	--ck-focus-ring: 3px solid var(--ck-color-button-cancel);
+	border-left: 3px solid var(--ck-color-button-cancel);
+}
+
+.ck.ck-iframe-button-row .ck.ck-iframe-button-cancel:hover:not(:focus) {
+	border-left: 4px solid var(--ck-color-button-cancel);
+}

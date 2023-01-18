@@ -27,19 +27,19 @@ export default class FormView extends View {
 		this.focusTracker = new FocusTracker();
 		this.keystrokes = new KeystrokeHandler();
 
-		this.urlInput = this._createInput( 'URL' );
-		this.widthInput = this._createInput( 'Width' );
-		this.heightInput = this._createInput( 'Height' );
-		this.nameInput = this._createInput( 'Name' );
-		this.advisoryTitleInput = this._createInput( 'Advisory Title' );
-		this.longDescriptionInput = this._createInput( 'Long Description URL' );
+		this.urlInput = this._createInput( 'URL', 'ck ck-iframe-url' );
+		this.widthInput = this._createInput( 'Width', 'ck ck-iframe-width' );
+		this.heightInput = this._createInput( 'Height', 'ck ck-iframe-height' );
+		this.nameInput = this._createInput( 'Name', 'ck ck-iframe-name' );
+		this.advisoryTitleInput = this._createInput( 'Advisory Title', 'ck ck-iframe-advisorytitle' );
+		this.longDescriptionInput = this._createInput( 'Long Description URL', 'ck ck-iframe-longdesc' );
 		this.alignmentDropdown = this._createDropdown( 'Alignment', [
-			{ icon: icons.alignLeft, text: 'left' },
-			{ icon: icons.alignCenter, text: 'middle' },
-			{ icon: icons.alignRight, text: 'right' }
-		] );
-		this.showScrollbarsToggle = this._createCheckbox( 'Enable scrollbars' );
-		this.showBorderToggle = this._createCheckbox( 'Show frame border' );
+			{ icon: icons.alignLeft, text: 'left', className: 'ck ck-iframe-alignleft' },
+			{ icon: icons.alignCenter, text: 'middle', className: 'ck ck-iframe-alignmiddle' },
+			{ icon: icons.alignRight, text: 'right', className: 'ck ck-iframe-alignright' }
+		], 'ck ck-iframe-alignment' );
+		this.showScrollbarsToggle = this._createCheckbox( 'Enable scrollbars', 'ck ck-iframe-scrollbars', 'showScrollbars' );
+		this.showBorderToggle = this._createCheckbox( 'Show frame border', 'ck ck-iframe-borders', 'showBorders' );
 		this.okButton = this._createButton( 'OK', icons.check, 'ck-iframe-button-ok ck-button-save' );
 		this.cancelButton = this._createButton( 'Cancel', icons.cancel, 'ck-iframe-button-cancel ck-button-cancel' );
 
@@ -51,15 +51,36 @@ export default class FormView extends View {
 		this.cancelButton.delegate( 'execute' ).to( this, 'cancel' );
 		this.okButton.delegate( 'execute' ).to( this, 'submit' );
 
+		this.secondRow = this.createCollection( [
+			this.widthInput,
+			this.heightInput,
+			this.alignmentDropdown
+		] );
+
+		this.thirdRow = this.createCollection( [
+			this.showScrollbarsToggle,
+			this.showBorderToggle
+		] );
+
+		this.fourthRow = this.createCollection( [
+			this.nameInput,
+			this.advisoryTitleInput
+		] );
+
+		this.buttonRow = this.createCollection( [
+			this.okButton,
+			this.cancelButton
+		] );
+
 		this.childViews = this.createCollection( [
 			this.urlInput,
 			this.widthInput,
 			this.heightInput,
 			this.alignmentDropdown,
-			this.nameInput,
-			this.advisoryTitleInput,
 			this.showScrollbarsToggle,
 			this.showBorderToggle,
+			this.nameInput,
+			this.advisoryTitleInput,
 			this.longDescriptionInput,
 			this.okButton,
 			this.cancelButton
@@ -84,7 +105,38 @@ export default class FormView extends View {
 				class: [ 'ck', 'ck-iframe-wrapper' ],
 				tabindex: '-1'
 			},
-			children: this.childViews
+			children: [
+				this.urlInput,
+				{
+					tag: 'div',
+					attributes: {
+						class: [ 'ck', 'ck-iframe-2nd-row', 'ck-iframe-row' ]
+					},
+					children: this.secondRow
+				},
+				{
+					tag: 'div',
+					attributes: {
+						class: [ 'ck', 'ck-iframe-3d-row', 'ck-iframe-row' ]
+					},
+					children: this.thirdRow
+				},
+				{
+					tag: 'div',
+					attributes: {
+						class: [ 'ck', 'ck-iframe-4th-row', 'ck-iframe-row' ]
+					},
+					children: this.fourthRow
+				},
+				this.longDescriptionInput,
+				{
+					tag: 'div',
+					attributes: {
+						class: [ 'ck', 'ck-iframe-button-row', 'ck-iframe-row' ]
+					},
+					children: this.buttonRow
+				}
+			]
 		} );
 	}
 
@@ -128,33 +180,46 @@ export default class FormView extends View {
 		button.set( {
 			label,
 			icon,
-			// tooltip: true,
+			withText: true,
 			class: className
 		} );
 
 		return button;
 	}
 
-	_createCheckbox( label ) {
+	_createCheckbox( label, className, propertyName ) {
 		const checkbox = new SwitchButtonView();
 
 		checkbox.set( {
+			bindIsOn: true,
+			class: className,
 			withText: true,
-			label
+			label,
 		} );
 
-		checkbox.on( 'execute', () => {
+		this.listenTo( checkbox, 'execute', evt => {
+			const { element } = evt.source;
+			const isPressed = element.getAttribute( 'aria-pressed' ) === 'false';
+			if ( isPressed ) {
+				this._setCheckboxChecked( element );
+			} else {
+				this._setCheckboxUnchecked( element );
+			}
 
+			this[ propertyName ] = isPressed;
 		} );
 
 		checkbox.render();
+
+		this[ propertyName ] = false;
+		this._setCheckboxChecked( checkbox.element );
 
 		return checkbox;
 	}
 
 	_createDropdown( label, options ) {
 		const dropdown = createDropdown( this.locale );
-		const buttons = [];
+		const buttons = {};
 		const labelButton = {
 			label,
 			withText: true
@@ -167,35 +232,52 @@ export default class FormView extends View {
 		options.forEach( option => {
 			const buttonObject = {
 				type: 'button',
+				option,
 				model: new Model( {
+					class: option.className,
 					icon: option.icon,
 					label: option.text,
 					withText: true
 				} )
 			};
-			buttons[ option.label ] = buttonObject;
+			buttons[ option.text ] = buttonObject;
 			items.add( buttonObject );
 		} );
 
 		addListToDropdown( dropdown, items );
 
-		// this does not work sadly, but mostly cause the command isn't found it seems
 		this.listenTo( dropdown, 'execute', evt => {
 			const choice = evt.source.element.textContent;
-			console.log( { choice } );
-			dropdown.buttonView.set( buttons[ choice ] );
-			this.ui.alignment = choice;
-			console.log( { alignmentUi: this.ui.alignment } );
+			const buttonOptions = buttons[ choice ].option;
+			dropdown.buttonView.label = `Align ${ buttonOptions.text }`;
+			this.alignment = choice;
 		} );
 
+		this.alignment = 'middle';
 		dropdown.render();
 		return dropdown;
 	}
-	_createInput( label ) {
-		const labeledInput = new LabeledFieldView( this.locale, createLabeledInputText );
+	_createInput( label, className, infoText ) {
+		const labeledInput = new LabeledFieldView( this.locale, createLabeledInputText, 'testje' );
 
 		labeledInput.label = label;
+		labeledInput.class = className;
+		if ( infoText ) {
+			labeledInput.infoText = 'dit is een testje';
+		}
 
 		return labeledInput;
+	}
+
+	_setCheckboxChecked( checkbox ) {
+		checkbox.setAttribute( 'aria-pressed', 'true' );
+		checkbox.classList.add( 'ck-on' );
+		checkbox.classList.remove( 'ck-off' );
+	}
+
+	_setCheckboxUnchecked( checkbox ) {
+		checkbox.setAttribute( 'aria-pressed', 'false' );
+		checkbox.classList.add( 'ck-off' );
+		checkbox.classList.remove( 'ck-on' );
 	}
 }
