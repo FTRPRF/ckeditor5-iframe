@@ -219,20 +219,15 @@ export default class FormView extends View {
 
 		this.listenTo( checkbox, 'execute', evt => {
 			const { element } = evt.source;
-			const isPressed = element.getAttribute( 'aria-pressed' ) === 'false';
-			if ( isPressed ) {
-				this._setCheckboxChecked( element );
-			} else {
-				this._setCheckboxUnchecked( element );
-			}
 
-			this[ propertyName ] = isPressed;
+			checkbox.isOn = !checkbox.isOn;
+			this[ propertyName ] = element.getAttribute( 'aria-pressed' ) === 'false';
 		} );
 
 		checkbox.render();
 
 		this[ propertyName ] = false;
-		this._setCheckboxChecked( checkbox.element );
+		checkbox.isOn = true;
 
 		return checkbox;
 	}
@@ -287,17 +282,5 @@ export default class FormView extends View {
 		}
 
 		return labeledInput;
-	}
-
-	_setCheckboxChecked( checkbox ) {
-		checkbox.setAttribute( 'aria-pressed', 'true' );
-		checkbox.classList.add( 'ck-on' );
-		checkbox.classList.remove( 'ck-off' );
-	}
-
-	_setCheckboxUnchecked( checkbox ) {
-		checkbox.setAttribute( 'aria-pressed', 'false' );
-		checkbox.classList.add( 'ck-off' );
-		checkbox.classList.remove( 'ck-on' );
 	}
 }
