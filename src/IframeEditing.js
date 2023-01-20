@@ -5,8 +5,12 @@
 
 import { Plugin } from 'ckeditor5/src/core';
 import IframeCommand from './IframeCommand';
+import { toWidget, Widget } from 'ckeditor5/src/widget';
 
 export default class IframeEditing extends Plugin {
+	static get requires() {
+		return [ Widget ];
+	}
 	init() {
 		this._defineSchema();
 		this._defineConverters();
@@ -67,7 +71,7 @@ export default class IframeEditing extends Plugin {
 					( showScrollbars ? '' : ' ck-iframe-showNoScrollbars' )
 				].join( ' ' );
 
-				return downcastWriter.createContainerElement( 'iframe', {
+				return toWidget( downcastWriter.createContainerElement( 'iframe', {
 					class: classNames,
 					'data-alignment': alignment,
 					'data-showBorders': showBorders,
@@ -78,7 +82,7 @@ export default class IframeEditing extends Plugin {
 					src: modelElement.getAttribute( 'url' ),
 					title: modelElement.getAttribute( 'advisoryTitle' ),
 					width: modelElement.getAttribute( 'width' )
-				} );
+				} ), downcastWriter);
 			}
 		} );
 

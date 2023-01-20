@@ -23,8 +23,7 @@ import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar';
 import CodeBlock from '@ckeditor/ckeditor5-code-block/src/codeblock';
 import Code from '@ckeditor/ckeditor5-basic-styles/src/code';
 
-// import IFrame from '../src/IFrame';
-import Iframe from '../src/iframe2/Iframe';
+import Iframe from '../src/Iframe';
 import Abbreviation from '../src/abbreviation/abbreviation';
 
 /* global document, window */
@@ -103,7 +102,6 @@ ClassicEditor
 	.then( editor => {
 		window.editor = editor;
 		CKEditorInspector.attach( editor );
-		window.console.log( 'CKEditor 5 is ready.', editor );
 	} )
 	.catch( err => {
 		window.console.error( err.stack );

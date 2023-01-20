@@ -6,7 +6,7 @@
 import { Plugin } from 'ckeditor5/src/core';
 import { ButtonView, ContextualBalloon, clickOutsideHandler } from 'ckeditor5/src/ui';
 import FormView from './IframeView';
-import '../styles.css';
+import './styles.css';
 
 export default class IframeUI extends Plugin {
 	static get requires() {
@@ -43,6 +43,8 @@ export default class IframeUI extends Plugin {
 
 		// Execute the command after clicking the "Save" button.
 		this.listenTo( formView, 'submit', () => {
+			console.log( 'inside formview listener' );
+
 			// Grab values from the iframe fields.
 			const value = {
 				advisoryTitle: formView.advisoryTitleInput.fieldView.element.value,
