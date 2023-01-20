@@ -1,0 +1,77 @@
+msgid ""
+msgstr ""
+"Language-Team: French (https://www.transifex.com/ckeditor/teams/11143/fr/)\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
+
+msgctxt "The replacement label once a choice is made regarding the alignment"
+msgid "Align %0"
+msgstr "%0 aligner"
+
+msgctxt "The default label for the alignment dropdown"
+msgid "Alignment"
+msgstr "Alignement"
+
+msgctxt "The label for the show borders checkbox"
+msgid "Borders"
+msgstr "Afficher la bordure du cadre"
+
+msgctxt "The label for the height input"
+msgid "Height"
+msgstr "Hauteur"
+
+msgctxt "The option to align the iframe horizontally to the left"
+msgid "left"
+msgstr "gauche"
+
+msgctxt "The label for the long description input"
+msgid "LongDesc"
+msgstr "URL de description longue"
+
+msgctxt "Info-text for the long description field"
+msgid "LongDescInfo"
+msgstr "Une URL d'une longue description du contenu du cadre"
+
+msgctxt "The option to align the iframe horizontally in the middle"
+msgid "middle"
+msgstr "milieu"
+
+msgctxt "The label for the name input"
+msgid "Name"
+msgstr "Nom"
+
+msgctxt "Infotext for the name input"
+msgid "NameInfo"
+msgstr "Un nom pouvant être ciblé pour le contexte de navigation intégré."
+
+msgctxt "The label for the submit button"
+msgid "OK"
+msgstr "Ok"
+
+msgctxt "The option to align the iframe horizontally to the right"
+msgid "right"
+msgstr "droite"
+
+msgctxt "The label for the scrollbars checkbox"
+msgid "Scrollbars"
+msgstr "Montrer les barres de défilement"
+
+msgctxt "The label for the title input"
+msgid "Title"
+msgstr "Titre"
+
+msgctxt "Infotext for the title input"
+msgid "TitleInfo"
+msgstr "Texte représentant des informations consultatives liées à l'iframe."
+
+msgctxt "The label for the url input"
+msgid "URL"
+msgstr "URL"
+
+msgctxt "The label for the width input"
+msgid "Width"
+msgstr "Largeur"
+
+msgctxt "Infotext for the width and height input"
+msgid "WidthHeightInfo"
+msgstr "Toute valeur acceptée par css est valide, par exemple: 400px ou 100%"

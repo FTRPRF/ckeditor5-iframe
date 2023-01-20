@@ -1,3 +1,20 @@
 {
-	"Iframe": "Content for a tooltip is displayed when a user hovers the CKEditor 5 icon."
+	"Align %0": "The replacement label once a choice is made regarding the alignment",
+	"Alignment": "The default label for the alignment dropdown",
+	"Borders": "The label for the show borders checkbox",
+	"Height": "The label for the height input",
+	"left": "The option to align the iframe horizontally to the left",
+	"LongDesc": "The label for the long description input",
+	"LongDescInfo": "Infotext for the long description field",
+	"middle": "The option to align the iframe horizontally in the middle",
+	"Name": "The label for the name input",
+	"NameInfo": "Infotext for the name input",
+	"OK": "The label for the submit button",
+	"right": "The option to align the iframe horizontally to the right",
+	"Scrollbars": "The label for the scrollbars checkbox",
+	"Title": "The label for the title input",
+	"TitleInfo": "Infotext for the title input",
+	"URL": "The label for the url input",
+	"Width": "The label for the width input",
+	"WidthHeightInfo": "Infotext for the width and height input"
 }

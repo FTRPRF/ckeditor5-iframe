@@ -38,7 +38,8 @@ export default class IframeUI extends Plugin {
 
 	_createFormView() {
 		const editor = this.editor;
-		const formView = new FormView( editor.locale, this );
+		const { t } = editor.locale;
+		const formView = new FormView( editor.locale, t );
 
 		// Execute the command after clicking the "Save" button.
 		this.listenTo( formView, 'submit', () => {
@@ -58,12 +59,12 @@ export default class IframeUI extends Plugin {
 			editor.execute( 'addIframe', value );
 
 			// Hide the form view after submit.
-			this._hideUI( formView );
+			this._hideUI( formView, t );
 		} );
 
 		// Hide the form view after clicking the "Cancel" button.
 		this.listenTo( formView, 'cancel', () => {
-			this._hideUI( formView );
+			this._hideUI( formView, t );
 		} );
 
 		// Hide the form view when clicking outside the balloon.
@@ -71,7 +72,7 @@ export default class IframeUI extends Plugin {
 			emitter: formView,
 			activator: () => this._balloon.visibleView === formView,
 			contextElements: [ this._balloon.view.element ],
-			callback: () => this._hideUI()
+			callback: () => this._hideUI( formView, t )
 		} );
 
 		return formView;
@@ -113,10 +114,10 @@ export default class IframeUI extends Plugin {
 		this.formView.focus();
 	}
 
-	_hideUI( formView ) {
+	_hideUI( formView, t ) {
 		// Clear the input field values and reset the form.
 		formView.advisoryTitleInput.fieldView.element.value = '';
-		formView.alignmentDropdown.buttonView.label = 'Alignment';
+		formView.alignmentDropdown.buttonView.label = t( 'Alignment' );
 		formView.heightInput.fieldView.element.value = '';
 		formView.longDescriptionInput.fieldView.element.value = '';
 		formView.nameInput.fieldView.element.value = '';

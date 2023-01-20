@@ -1,0 +1,77 @@
+msgid ""
+msgstr ""
+"Language-Team: Dutch (https://www.transifex.com/ckeditor/teams/11143/nl/)\n"
+"Language: nl\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgctxt "The replacement label once a choice is made regarding the alignment"
+msgid "Align %0"
+msgstr "%0 uitlijnen"
+
+msgctxt "The default label for the alignment dropdown"
+msgid "Alignment"
+msgstr "Uitlijning"
+
+msgctxt "The label for the show borders checkbox"
+msgid "Borders"
+msgstr "Toon frame-randen"
+
+msgctxt "The label for the height input"
+msgid "Height"
+msgstr "Hoogte"
+
+msgctxt "The option to align the iframe horizontally to the left"
+msgid "left"
+msgstr "links"
+
+msgctxt "The label for the long description input"
+msgid "LongDesc"
+msgstr "URL voor de lange beschrijving"
+
+msgctxt "Info-text for the long description field"
+msgid "LongDescInfo"
+msgstr "Een URL die verwijst naar de lange beschrijving voor de inhoud van het frame"
+
+msgctxt "The option to align the iframe horizontally in the middle"
+msgid "middle"
+msgstr "midden"
+
+msgctxt "The label for the name input"
+msgid "Name"
+msgstr "Naam"
+
+msgctxt "Infotext for the name input"
+msgid "NameInfo"
+msgstr "Een programmatorisch bruikbare naam voor de ingevoegde browsing context."
+
+msgctxt "The label for the submit button"
+msgid "OK"
+msgstr "Ok"
+
+msgctxt "The option to align the iframe horizontally to the right"
+msgid "right"
+msgstr "rechts"
+
+msgctxt "The label for the scrollbars checkbox"
+msgid "Scrollbars"
+msgstr "Schuifbalken tonen"
+
+msgctxt "The label for the title input"
+msgid "Title"
+msgstr "Titel"
+
+msgctxt "Infotext for the title input"
+msgid "TitleInfo"
+msgstr "Tekst met adviserende inhoud gerelateerd aan het iframe."
+
+msgctxt "The label for the url input"
+msgid "URL"
+msgstr "URL"
+
+msgctxt "The label for the width input"
+msgid "Width"
+msgstr "Breedte"
+
+msgctxt "Infotext for the width and height input"
+msgid "WidthHeightInfo"
+msgstr "Elke waarde die geldige css is, bv: 400px or 100%"

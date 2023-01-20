@@ -20,28 +20,48 @@ import { Collection, FocusTracker, KeystrokeHandler } from 'ckeditor5/src/utils'
 import { icons } from 'ckeditor5/src/core';
 
 export default class FormView extends View {
-	constructor( locale, ui ) {
+	constructor( locale, t ) {
 		super( locale );
 
-		this.ui = ui;
+		this.t = t;
 		this.focusTracker = new FocusTracker();
 		this.keystrokes = new KeystrokeHandler();
 
-		this.urlInput = this._createInput( 'URL', 'ck ck-iframe-url' );
-		this.widthInput = this._createInput( 'Width', 'ck ck-iframe-width' );
-		this.heightInput = this._createInput( 'Height', 'ck ck-iframe-height' );
-		this.nameInput = this._createInput( 'Name', 'ck ck-iframe-name' );
-		this.advisoryTitleInput = this._createInput( 'Advisory Title', 'ck ck-iframe-advisorytitle' );
-		this.longDescriptionInput = this._createInput( 'Long Description URL', 'ck ck-iframe-longdesc' );
-		this.alignmentDropdown = this._createDropdown( 'Alignment', [
-			{ icon: icons.alignLeft, text: 'left', className: 'ck ck-iframe-alignleft' },
-			{ icon: icons.alignCenter, text: 'middle', className: 'ck ck-iframe-alignmiddle' },
-			{ icon: icons.alignRight, text: 'right', className: 'ck ck-iframe-alignright' }
+		this.urlInput = this._createInput( t( 'URL' ), 'ck ck-iframe-url' );
+		this.widthInput = this._createInput(
+			t( 'Width' ),
+			'ck ck-iframe-width',
+			t( 'WidthHeightInfo' )
+		);
+		this.heightInput = this._createInput(
+			t( 'Height' ),
+			'ck ck-iframe-height',
+			t( 'WidthHeightInfo' )
+		);
+		this.nameInput = this._createInput(
+			t( 'Name' ),
+			'ck ck-iframe-name',
+			t( 'NameInfo' )
+		);
+		this.advisoryTitleInput = this._createInput(
+			t( 'Title' ),
+			'ck ck-iframe-advisorytitle',
+			t( 'TitleInfo' )
+		);
+		this.longDescriptionInput = this._createInput(
+			t( 'LongDesc' ),
+			'ck ck-iframe-longdesc',
+			t( 'LongDescInfo' )
+		);
+		this.alignmentDropdown = this._createDropdown( t( 'Alignment' ), [
+			{ icon: icons.alignLeft, text: t( 'left' ), className: 'ck ck-iframe-alignleft' },
+			{ icon: icons.alignCenter, text: t( 'middle' ), className: 'ck ck-iframe-alignmiddle' },
+			{ icon: icons.alignRight, text: t( 'right' ), className: 'ck ck-iframe-alignright' }
 		], 'ck ck-iframe-alignment' );
-		this.showScrollbarsToggle = this._createCheckbox( 'Enable scrollbars', 'ck ck-iframe-scrollbars', 'showScrollbars' );
-		this.showBorderToggle = this._createCheckbox( 'Show frame border', 'ck ck-iframe-borders', 'showBorders' );
-		this.okButton = this._createButton( 'OK', icons.check, 'ck-iframe-button-ok ck-button-save' );
-		this.cancelButton = this._createButton( 'Cancel', icons.cancel, 'ck-iframe-button-cancel ck-button-cancel' );
+		this.showScrollbarsToggle = this._createCheckbox( t( 'Scrollbars' ), 'ck ck-iframe-scrollbars', 'showScrollbars' );
+		this.showBorderToggle = this._createCheckbox( t( 'Borders' ), 'ck ck-iframe-borders', 'showBorders' );
+		this.okButton = this._createButton( t( 'OK' ), icons.check, 'ck-iframe-button-ok ck-button-save' );
+		this.cancelButton = this._createButton( t( 'Cancel' ), icons.cancel, 'ck-iframe-button-cancel ck-button-cancel' );
 
 		// Submit type of the button will trigger the submit event on entire form when clicked
 		// (see submitHandler() in render() below).
@@ -194,7 +214,7 @@ export default class FormView extends View {
 			bindIsOn: true,
 			class: className,
 			withText: true,
-			label,
+			label
 		} );
 
 		this.listenTo( checkbox, 'execute', evt => {
@@ -249,21 +269,21 @@ export default class FormView extends View {
 		this.listenTo( dropdown, 'execute', evt => {
 			const choice = evt.source.element.textContent;
 			const buttonOptions = buttons[ choice ].option;
-			dropdown.buttonView.label = `Align ${ buttonOptions.text }`;
+			dropdown.buttonView.label = this.t( 'Align %0', buttonOptions.text );
 			this.alignment = choice;
 		} );
 
-		this.alignment = 'middle';
+		this.alignment = this.t( 'middle' ); // default alignment
 		dropdown.render();
 		return dropdown;
 	}
 	_createInput( label, className, infoText ) {
-		const labeledInput = new LabeledFieldView( this.locale, createLabeledInputText, 'testje' );
+		const labeledInput = new LabeledFieldView( this.locale, createLabeledInputText );
 
 		labeledInput.label = label;
 		labeledInput.class = className;
 		if ( infoText ) {
-			labeledInput.infoText = 'dit is een testje';
+			labeledInput.infoText = infoText;
 		}
 
 		return labeledInput;

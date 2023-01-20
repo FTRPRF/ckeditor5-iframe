@@ -1,0 +1,77 @@
+msgid ""
+msgstr ""
+"Language: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+msgctxt "The replacement label once a choice is made regarding the alignment"
+msgid "Align %0"
+msgstr "Align %0"
+
+msgctxt "The default label for the alignment dropdown"
+msgid "Alignment"
+msgstr "Alignment"
+
+msgctxt "The label for the show borders checkbox"
+msgid "Borders"
+msgstr "Show frame border"
+
+msgctxt "The label for the height input"
+msgid "Height"
+msgstr "Height"
+
+msgctxt "The option to align the iframe horizontally to the left"
+msgid "left"
+msgstr "left"
+
+msgctxt "The label for the long description input"
+msgid "LongDesc"
+msgstr "Long Description URL"
+
+msgctxt "Infotext for the long description field"
+msgid "LongDescInfo"
+msgstr "A URL of a long description of the frame's content"
+
+msgctxt "The option to align the iframe horizontally in the middle"
+msgid "middle"
+msgstr "middle"
+
+msgctxt "The label for the name input"
+msgid "Name"
+msgstr "Name"
+
+msgctxt "Info-text for the name input"
+msgid "NameInfo"
+msgstr "A targetable name for the embedded browsing context."
+
+msgctxt "The label for the submit button"
+msgid "OK"
+msgstr "OK"
+
+msgctxt "The option to align the iframe horizontally to the right"
+msgid "right"
+msgstr "right"
+
+msgctxt "The label for the scrollbars checkbox"
+msgid "Scrollbars"
+msgstr "Enable scrollbars"
+
+msgctxt "The label for the title input"
+msgid "Title"
+msgstr "Title"
+
+msgctxt "Infotext for the title input"
+msgid "TitleInfo"
+msgstr "Text representing advisory information related to the iframe."
+
+msgctxt "The label for the url input"
+msgid "URL"
+msgstr "URL"
+
+msgctxt "The label for the width input"
+msgid "Width"
+msgstr "Width"
+
+msgctxt "Infotext for the width and height input"
+msgid "WidthHeightInfo"
+msgstr "Any value accepted by css is valid, eg: 400px or 100%"

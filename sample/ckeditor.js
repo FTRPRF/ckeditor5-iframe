@@ -25,7 +25,7 @@ import Code from '@ckeditor/ckeditor5-basic-styles/src/code';
 
 // import IFrame from '../src/IFrame';
 import Iframe from '../src/iframe2/Iframe';
-import Abbreviation from "../src/abbreviation/abbreviation";
+import Abbreviation from '../src/abbreviation/abbreviation';
 
 /* global document, window */
 
