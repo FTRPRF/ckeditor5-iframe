@@ -212,7 +212,7 @@ export default class FormView extends View {
 
 		checkbox.set( {
 			class: className,
-			isOn: true,
+			isOn: true, // default to true
 			withText: true,
 			label
 		} );
@@ -221,13 +221,11 @@ export default class FormView extends View {
 			const { element } = evt.source;
 
 			checkbox.isOn = !checkbox.isOn;
-			this[ propertyName ] = element.getAttribute( 'aria-pressed' ) === 'false';
+			this[ propertyName ] = element.getAttribute( 'aria-pressed' ) === 'true';
 		} );
 
 		checkbox.render();
-
-		this[ propertyName ] = false;
-		// checkbox.isOn = !checkbox.isOn; // default to true
+		this[ propertyName ] = true;
 
 		return checkbox;
 	}

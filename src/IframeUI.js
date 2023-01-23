@@ -61,6 +61,28 @@ export default class IframeUI extends Plugin {
 		} );
 	}
 
+	_clearForm() {
+		const { t } = this.editor.locale;
+		const formView = this.formView;
+		const borderElement = formView.showBorderToggle.element;
+		const scrollbarsElement = formView.showScrollbarsToggle.element;
+
+		// Clear the input field values and reset the form.
+		formView.advisoryTitleInput.fieldView.element.value = '';
+		formView.alignmentDropdown.buttonView.label = t( 'Alignment' );
+		formView.heightInput.fieldView.element.value = '';
+		formView.longDescriptionInput.fieldView.element.value = '';
+		formView.nameInput.fieldView.element.value = '';
+		borderElement.setAttribute( 'aria-pressed', 'true' );
+		borderElement.classList.remove( 'ck-off' );
+		borderElement.classList.add( 'ck-on' );
+		scrollbarsElement.setAttribute( 'aria-pressed', 'true' );
+		scrollbarsElement.classList.remove( 'ck-off' );
+		scrollbarsElement.classList.add( 'ck-on' );
+		formView.urlInput.fieldView.element.value = '';
+		formView.widthInput.fieldView.element.value = '';
+	}
+
 	_createFormView() {
 		const editor = this.editor;
 		const { t } = editor.locale;
@@ -84,12 +106,12 @@ export default class IframeUI extends Plugin {
 			editor.execute( 'addIframe', value );
 
 			// Hide the form view after submit.
-			this._hideUI( formView, t );
+			this._hideUI();
 		} );
 
 		// Hide the form view after clicking the "Cancel" button.
 		this.listenTo( formView, 'cancel', () => {
-			this._hideUI( formView, t );
+			this._hideUI();
 		} );
 
 		// Hide the form view when clicking outside the balloon.
@@ -97,7 +119,7 @@ export default class IframeUI extends Plugin {
 			emitter: formView,
 			activator: () => this._balloon.visibleView === formView,
 			contextElements: [ this._balloon.view.element ],
-			callback: () => this._hideUI( formView, t )
+			callback: () => this._hideUI()
 		} );
 
 		return formView;
@@ -107,21 +129,26 @@ export default class IframeUI extends Plugin {
 		const { t } = this.editor.locale;
 
 		// Check the value of the command.
-		const commandValue = this.editor.commands.get( 'addIframe' ).value || previousValue;
-
-		this._balloon.add( {
-			view: this.formView,
-			position: this._getBalloonPositionData()
-		} );
+		const commandValue = previousValue || this.editor.commands.get( 'addIframe' ).value;
 
 		// Fill the form using the state (value) of the command.
 		if ( commandValue ) {
+			/*
+			 * We need to clear the values right before setting them again.  This is because if we don't we can only
+			 *  open / close the popup once and see the values filled in.  Any more than that and it doesn't fill the values
+			 * (even though they're there).  If we do it by calling the _clearForm method, it doesn't work.  The why is
+			 * unclear (for both the clearing being necessary and the clearform method not working).
+			 */
+			this.formView.advisoryTitleInput.fieldView.value = '';
 			this.formView.advisoryTitleInput.fieldView.value = commandValue.advisoryTitle;
 			this.formView.alignment = commandValue.alignment;
 			this.formView.alignmentDropdown.listView.element.value = commandValue.alignment;
 			this.formView.alignmentDropdown.buttonView.label = t( 'Align %0', commandValue.alignment );
+			this.formView.heightInput.fieldView.value = '';
 			this.formView.heightInput.fieldView.value = commandValue.height;
+			this.formView.longDescriptionInput.fieldView.value = '';
 			this.formView.longDescriptionInput.fieldView.value = commandValue.longDescription;
+			this.formView.nameInput.fieldView.value = '';
 			this.formView.nameInput.fieldView.value = commandValue.name;
 			this.formView.showBorderToggle.element.setAttribute( 'aria-pressed', ( commandValue.showBorders ? 'true' : 'false' ) );
 			this.formView.showBorders = Boolean( commandValue.showBorders );
@@ -135,33 +162,23 @@ export default class IframeUI extends Plugin {
 				this.formView.showScrollbarsToggle.element.classList.remove( 'ck-on' );
 				this.formView.showScrollbarsToggle.element.classList.add( 'ck-off' );
 			}
+			this.formView.urlInput.fieldView.value = '';
 			this.formView.urlInput.fieldView.value = commandValue.url;
+			this.formView.widthInput.fieldView.value = '';
 			this.formView.widthInput.fieldView.value = commandValue.width;
 		}
+
+		this._balloon.add( {
+			view: this.formView,
+			position: this._getBalloonPositionData()
+		} );
 
 		this.formView.focus();
 	}
 
-	_hideUI( formView, t ) {
-		const borderElement = formView.showBorderToggle.element;
-		const scrollbarsElement = formView.showScrollbarsToggle.element;
-
-		// Clear the input field values and reset the form.
-		formView.advisoryTitleInput.fieldView.element.value = '';
-		formView.alignmentDropdown.buttonView.label = t( 'Alignment' );
-		formView.heightInput.fieldView.element.value = '';
-		formView.longDescriptionInput.fieldView.element.value = '';
-		formView.nameInput.fieldView.element.value = '';
-		borderElement.setAttribute( 'aria-pressed', 'true' );
-		borderElement.classList.remove( 'ck-off' );
-		borderElement.classList.add( 'ck-on' );
-		scrollbarsElement.setAttribute( 'aria-pressed', 'true' );
-		scrollbarsElement.classList.remove( 'ck-off' );
-		scrollbarsElement.classList.add( 'ck-on' );
-		formView.urlInput.fieldView.element.value = '';
-		formView.widthInput.fieldView.element.value = '';
-
-		this._balloon.remove( formView );
+	_hideUI() {
+		this._clearForm();
+		this._balloon.remove( this.formView );
 
 		// Focus the editing view after inserting the iframe so the user can start typing the content
 		// right away and keep the editor focused.
