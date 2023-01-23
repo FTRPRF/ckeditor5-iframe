@@ -1,28 +1,47 @@
 @ftrprf/ckeditor5-iframe
 ========================
 
-This package was created by the [ckeditor5-package-generator](https://www.npmjs.com/package/ckeditor5-package-generator) package.
+This package was created by the [ckeditor5-package-generator](https://www.npmjs.
+com/package/ckeditor5-package-generator) package.
 
 ## Table of contents
 
+* [Purpose](#Purpose)
 * [Developing the package](#developing-the-package)
-* [Available scripts](#available-scripts)
-  * [`start`](#start)
-  * [`test`](#test)
-  * [`lint`](#lint)
-  * [`stylelint`](#stylelint)
-  * [`dll:build`](#dllbuild)
-  * [`dll:serve`](#dllserve)
-  * [`translations:collect`](#translationscollect)
-  * [`translations:download`](#translationsdownload)
-  * [`translations:upload`](#translationsupload)
+  * [Available scripts](#available-scripts)
+    * [`start`](#start)
+    * [`test`](#test)
+    * [`lint`](#lint)
+    * [`stylelint`](#stylelint)
+    * [`dll:build`](#dllbuild)
+    * [`dll:serve`](#dllserve)
+    * [`translations:collect`](#translationscollect)
+    * [`translations:download`](#translationsdownload)
+    * [`translations:upload`](#translationsupload)
 * [License](#license)
+
+## Purpose
+
+This package allows for the insertion of an iframe via ckeditor.
+
+## Translations
+
+Currently, the package has been translated into 3 languages:
+* Dutch
+* English
+* French
+
+We welcome contributions for more languages.  Doing so is easy:
+* make a copy of the english po file (`lang/translations/en.po`)
+* rename it into the international abbreviation for the language you're translating into (eg. for Arabic use `ar.po`)
+* translate the message strings.  Message strings start with the key `msgstr`.
+* create a pull request for your changes.
 
 ## Developing the package
 
 To read about the CKEditor 5 framework, visit the [CKEditor5 documentation](https://ckeditor.com/docs/ckeditor5/latest/framework/index.html).
 
-## Available scripts
+### Available scripts
 
 Npm scripts are a convenient way to provide commands in a project. They are defined in the `package.json` file and shared with other people contributing to the project. It ensures that developers use the same command with the same options (flags).
 
@@ -30,7 +49,7 @@ All the scripts can be executed by running `yarn run <script>`. Pre and post com
 
 The following scripts are available in the package.
 
-### `start`
+#### `start`
 
 Starts a HTTP server with the live-reload mechanism that allows previewing and testing plugins available in the package.
 
@@ -51,7 +70,7 @@ yarn run start --no-open
 yarn run start --language=de
 ```
 
-### `test`
+#### `test`
 
 Allows executing unit tests for the package, specified in the `tests/` directory. The command accepts the following modifiers:
 
@@ -70,7 +89,7 @@ yarn run test
 yarn run test --coverage --test
 ```
 
-### `lint`
+#### `lint`
 
 Runs ESLint, which analyzes the code (all `*.js` files) to quickly find problems.
 
@@ -81,7 +100,7 @@ Examples:
 yarn run lint
 ```
 
-### `stylelint`
+#### `stylelint`
 
 Similar to the `lint` task, stylelint analyzes the CSS code (`*.css` files in the `theme/` directory) in the package.
 
@@ -92,7 +111,7 @@ Examples:
 yarn run stylelint
 ```
 
-### `dll:build`
+#### `dll:build`
 
 Creates a DLL-compatible package build which can be loaded into an editor using [DLL builds](https://ckeditor.com/docs/ckeditor5/latest/builds/guides/development/dll-builds.html).
 
@@ -106,7 +125,7 @@ yarn run dll:build
 yarn run dll:build --watch
 ```
 
-### `dll:serve`
+#### `dll:serve`
 
 Creates a simple HTTP server (without the live-reload mechanism) that allows verifying whether the DLL build of the package is compatible with the CKEditor 5 [DLL builds](https://ckeditor.com/docs/ckeditor5/latest/builds/guides/development/dll-builds.html).
 
@@ -117,7 +136,7 @@ Examples:
 yarn run dll:serve
 ```
 
-### `translations:collect`
+#### `translations:collect`
 
 Collects translation messages (arguments of the `t()` function) and context files, then validates whether the provided values do not interfere with the values specified in the `@ckeditor/ckeditor5-core` package.
 
@@ -133,7 +152,7 @@ Examples:
 yarn run translations:collect
 ```
 
-### `translations:download`
+#### `translations:download`
 
 Download translations from the Transifex server. Depending on users' activity in the project, it creates translations files used for building the editor.
 
@@ -147,7 +166,7 @@ Examples:
 yarn run translations:download --transifex [API URL]
 ```
 
-### `translations:upload`
+#### `translations:upload`
 
 Uploads translation messages onto the Transifex server. It allows for the creation of translations into other languages by users using the Transifex platform.
 
@@ -160,6 +179,12 @@ Examples:
 ```bash
 yarn run translations:upload --transifex [API URL]
 ```
+
+### Translations
+
+For more information see [the full guide](https://ckeditor.
+com/docs/ckeditor5/latest/framework/guides/deep-dive/ui/localization.html).
+To test the translations you need to
 
 ## License
 
