@@ -74,4 +74,4 @@ msgstr "Breedte"
 
 msgctxt "Infotext for the width and height input"
 msgid "WidthHeightInfo"
-msgstr "Elke waarde die geldige css is, bv: 400px or 100%"
+msgstr "Elke lengte-waarde die geldige css is, bv: 400px or 100%"

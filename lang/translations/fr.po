@@ -74,4 +74,4 @@ msgstr "Largeur"
 
 msgctxt "Infotext for the width and height input"
 msgid "WidthHeightInfo"
-msgstr "Toute valeur acceptée par css est valide, par exemple: 400px ou 100%"
+msgstr "Toute valeur de longeur acceptée par css est valide, par exemple: 400px ou 100%"
