@@ -40,9 +40,13 @@ msgctxt "The label for the name input"
 msgid "Name"
 msgstr "Naam"
 
+msgctxt "The error for the name input"
+msgid "NameError"
+msgstr "Kies een geldige waarde. Geldige waarden zijn: '_self', '_blank', '_parent' en '_top'."
+
 msgctxt "Infotext for the name input"
 msgid "NameInfo"
-msgstr "Een programmatorisch bruikbare naam voor de ingevoegde browsing context."
+msgstr "Waar het iframe te openen. Kan '_self', '_blank', '_parent' of '_top' zijn."
 
 msgctxt "The label for the submit button"
 msgid "OK"
@@ -60,17 +64,29 @@ msgctxt "The label for the title input"
 msgid "Title"
 msgstr "Titel"
 
+msgctxt "The error info for the title input"
+msgid "TitleError"
+msgstr "De titel moet beknopt zijn. Beperk de lengte tot maximaal 256 tekens."
+
 msgctxt "Infotext for the title input"
 msgid "TitleInfo"
-msgstr "Tekst met adviserende inhoud gerelateerd aan het iframe."
+msgstr "De waarde van de titel moet de ingesloten inhoud beknopt beschrijven."
 
 msgctxt "The label for the url input"
 msgid "URL"
 msgstr "URL"
 
+msgctxt "The error for the url input"
+msgid "URLError"
+msgstr "Een url moet om veiligheidsredenen beginnen met https://."
+
 msgctxt "The label for the width input"
 msgid "Width"
 msgstr "Breedte"
+
+msgctxt "The error for the width and height input"
+msgid "WidthHeightError"
+msgstr "Geldige css-lengte-eenheden zijn px, em, rem, vw, vh, vmin, vmax, %, cm, mm, in, pt en pc."
 
 msgctxt "Infotext for the width and height input"
 msgid "WidthHeightInfo"

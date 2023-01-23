@@ -103,10 +103,12 @@ export default class IframeUI extends Plugin {
 				width: formView.widthInput.fieldView.element.value
 			};
 
-			editor.execute( 'addIframe', value );
+			if ( formView.isValid() ) {
+				editor.execute( 'addIframe', value );
 
-			// Hide the form view after submit.
-			this._hideUI();
+				// Hide the form view after submit.
+				this._hideUI();
+			}
 		} );
 
 		// Hide the form view after clicking the "Cancel" button.

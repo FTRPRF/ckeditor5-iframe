@@ -18,6 +18,7 @@ import {
 } from 'ckeditor5/src/ui';
 import { Collection, FocusTracker, KeystrokeHandler } from 'ckeditor5/src/utils';
 import { icons } from 'ckeditor5/src/core';
+import { validateStringByRegex } from './utils';
 
 export default class FormView extends View {
 	constructor( locale, t ) {
@@ -103,8 +104,106 @@ export default class FormView extends View {
 		this._createFormFields();
 		this._createChildViews();
 		this._createRows();
+		this._addValidators();
 	}
 
+	_addValidators() {
+		this._validators = [
+			{
+				errorText: 'TitleError',
+				field: this.advisoryTitleInput,
+				validate: () => {
+					const value = this.advisoryTitleInput.fieldView.element.value.trim();
+
+					if ( !value ) {
+						return true;
+					}
+
+					return value.length < 256;
+				}
+			},
+			{
+				errorText: 'WidthHeightError',
+				field: this.heightInput,
+				validate: () => {
+					const value = this.heightInput.fieldView.element.value.trim();
+					const regex = /^-?[0-9]+(\.[0-9]+)?(px|em|rem|vw|vh|vmin|vmax|%|cm|mm|in|pt|pc)$/;
+
+					if ( !value ) {
+						return true;
+					}
+
+					return validateStringByRegex( value, regex );
+				}
+			},
+			{
+				errorText: 'UrlError',
+				field: this.longDescriptionInput,
+				validate: () => {
+					const value = this.longDescriptionInput.fieldView.element.value.trim();
+
+					/*
+					 * This only validates:
+					 * - if the url starts with https
+					 * because URL validation done right is beyond our scope.  Let alone IRI validation.
+					 * See https://stackoverflow.com/a/1411800/2248415 for more info.
+					 */
+					const regex = /^(https):\/\/[^ "]+$/;
+
+					if ( !value ) {
+						return true;
+					}
+
+					return validateStringByRegex( value, regex );
+				}
+			},
+			{
+				errorText: 'NameError',
+				field: this.nameInput,
+				validate: () => {
+					const value = this.nameInput.fieldView.element.value.trim();
+					const regex = /^(_self|_blank|_parent|_top)$/;
+
+					if ( !value ) {
+						return true;
+					}
+
+					return validateStringByRegex( value, regex );
+				}
+			},
+			{
+				errorText: 'UrlError',
+				field: this.urlInput,
+				validate: () => {
+					const value = this.urlInput.fieldView.element.value.trim();
+
+					/*
+					 * This only validates:
+					 * - if the url starts with https,
+					 * because URL validation done right is beyond our scope.  Let alone IRI validation.
+					 * See https://stackoverflow.com/a/1411800/2248415 for more info.
+					 */
+					const regex = /^(https):\/\/[^ "]+$/;
+
+					return validateStringByRegex( value, regex );
+				}
+			},
+			{
+				errorText: 'WidthHeightError',
+				field: this.widthInput,
+				validate: () => {
+					const value = this.widthInput.fieldView.element.value.trim();
+					const regex = /^-?[0-9]+(\.[0-9]+)?(px|em|rem|vw|vh|vmin|vmax|%|cm|mm|in|pt|pc)$/;
+
+					if ( !value ) {
+						return true;
+					}
+
+					return validateStringByRegex( value, regex );
+				}
+			}
+		];
+	}
 	_createButton( label, icon, className ) {
 		const button = new ButtonView();
 
@@ -316,7 +415,22 @@ export default class FormView extends View {
 	}
 
 	isValid() {
-		return true;
+		// clear all errors
+		this.resetFormStatus();
+
+		let isValid = true;
+
+		for ( const validator of this._validators ) {
+			const { errorText, field, validate } = validator;
+			const hasError = !validate( field );
+
+			if ( hasError ) {
+				field.errorText = this.t( errorText );
+				isValid = false;
+			}
+		}
+
+		return isValid;
 	}
 
 	render() {
@@ -336,23 +450,14 @@ export default class FormView extends View {
 	}
 
 	resetFormStatus() {
-		const { t } = this.t;
-		const borderElement = this.showBorderToggle.element;
-		const scrollbarsElement = this.showScrollbarsToggle.element;
-
-		// Clear the input field values and reset the form.
-		this.advisoryTitleInput.fieldView.element.value = '';
-		this.alignmentDropdown.buttonView.label = t( 'Alignment' );
-		this.heightInput.fieldView.element.value = '';
-		this.longDescriptionInput.fieldView.element.value = '';
-		this.nameInput.fieldView.element.value = '';
-		borderElement.setAttribute( 'aria-pressed', 'true' );
-		borderElement.classList.remove( 'ck-off' );
-		borderElement.classList.add( 'ck-on' );
-		scrollbarsElement.setAttribute( 'aria-pressed', 'true' );
-		scrollbarsElement.classList.remove( 'ck-off' );
-		scrollbarsElement.classList.add( 'ck-on' );
-		this.urlInput.fieldView.element.value = '';
-		this.widthInput.fieldView.element.value = '';
+		this.advisoryTitleInput.errorText = '';
+		this.alignmentDropdown.errorText = '';
+		this.heightInput.errorText = '';
+		this.longDescriptionInput.errorText = '';
+		this.nameInput.errorText = '';
+		this.showBorderToggle.errorText = '';
+		this.showScrollbarsToggle.errorText = '';
+		this.urlInput.errorText = '';
+		this.widthInput.errorText = '';
 	}
 }

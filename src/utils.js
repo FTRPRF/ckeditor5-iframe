@@ -71,3 +71,6 @@ export function isIframe( viewElement ) {
 	return !!viewElement.is( 'element', 'iframe' );
 }
 
+export function validateStringByRegex( value, regex ) {
+	return regex.test( value );
+}

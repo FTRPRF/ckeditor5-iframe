@@ -40,9 +40,13 @@ msgctxt "The label for the name input"
 msgid "Name"
 msgstr "Name"
 
+msgctxt "The error for the name input"
+msgid "NameError"
+msgstr "Please choose a valid value.  Valid values are: '_self', '_blank', '_parent' and '_top'."
+
 msgctxt "Info-text for the name input"
 msgid "NameInfo"
-msgstr "A targetable name for the embedded browsing context."
+msgstr "Where to open the iframe.  Can be '_self', '_blank', '_parent' or '_top'."
 
 msgctxt "The label for the submit button"
 msgid "OK"
@@ -60,17 +64,29 @@ msgctxt "The label for the title input"
 msgid "Title"
 msgstr "Title"
 
+msgctxt "The error for the title input"
+msgid "TitleError"
+msgstr "The title should be concise.  Please limit the length to at most 256 characters."
+
 msgctxt "Infotext for the title input"
 msgid "TitleInfo"
-msgstr "Text representing advisory information related to the iframe."
+msgstr "The title's value should concisely describe the embedded content."
 
 msgctxt "The label for the url input"
 msgid "URL"
 msgstr "URL"
 
+msgctxt "The error for the url input"
+msgid "URLError"
+msgstr "A url must begin with https:// for security reasons."
+
 msgctxt "The label for the width input"
 msgid "Width"
 msgstr "Width"
+
+msgctxt "The error for the width and height input"
+msgid "WidthHeightError"
+msgstr "Valid css length units are px, em, rem, vw, vh, vmin, vmax, %, cm, mm, in, pt and pc."
 
 msgctxt "Infotext for the width and height input"
 msgid "WidthHeightInfo"
