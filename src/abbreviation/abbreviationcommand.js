@@ -94,7 +94,7 @@ export default class AbbreviationCommand extends Command {
 					writer.setSelection( positionAfter );
 				}
 
-				// Remove the "abbreviation" attribute attribute from the selection. It stops adding a new content into the abbreviation
+				// Remove the "abbreviation" attribute from the selection. It stops adding a new content into the abbreviation
 				// if the user starts to type.
 				writer.removeSelectionAttribute( 'abbreviation' );
 			} else {

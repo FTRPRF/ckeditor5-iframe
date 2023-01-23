@@ -211,8 +211,8 @@ export default class FormView extends View {
 		const checkbox = new SwitchButtonView();
 
 		checkbox.set( {
-			bindIsOn: true,
 			class: className,
+			isOn: true,
 			withText: true,
 			label
 		} );
@@ -227,7 +227,7 @@ export default class FormView extends View {
 		checkbox.render();
 
 		this[ propertyName ] = false;
-		checkbox.isOn = true;
+		// checkbox.isOn = !checkbox.isOn; // default to true
 
 		return checkbox;
 	}

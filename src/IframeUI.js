@@ -7,6 +7,7 @@ import { Plugin } from 'ckeditor5/src/core';
 import { ButtonView, ContextualBalloon, clickOutsideHandler } from 'ckeditor5/src/ui';
 import FormView from './IframeView';
 import './styles.css';
+import { getClosestSelectedIframe } from './utils';
 
 export default class IframeUI extends Plugin {
 	static get requires() {
@@ -28,7 +29,31 @@ export default class IframeUI extends Plugin {
 			button.withText = true;
 
 			// Show the UI on button click.
-			this.listenTo( button, 'execute', () => {
+			this.listenTo( button, 'execute', evt => {
+				const { element } = evt.source;
+				const { parentElement: parent } = element;
+				const { parentElement: grandParent } = parent;
+				const originatesFromWidgetToolbar = grandParent.getAttribute( 'aria-label' ).includes( 'widget' );
+
+				if ( originatesFromWidgetToolbar ) {
+					const { model } = editor;
+					const { selection } = model.document;
+					const iframeElement = getClosestSelectedIframe( selection );
+
+					this._showUI( {
+						advisoryTitle: iframeElement.getAttribute( 'advisoryTitle' ),
+						alignment: iframeElement.getAttribute( 'alignment' ),
+						height: iframeElement.getAttribute( 'height' ),
+						longDescription: iframeElement.getAttribute( 'longDescription' ),
+						name: iframeElement.getAttribute( 'name' ),
+						showBorders: iframeElement.getAttribute( 'showBorders' ),
+						showScrollbars: iframeElement.getAttribute( 'showScrollbars' ),
+						url: iframeElement.getAttribute( 'url' ),
+						width: iframeElement.getAttribute( 'width' )
+					} );
+					return;
+				}
+
 				this._showUI();
 			} );
 
@@ -43,8 +68,6 @@ export default class IframeUI extends Plugin {
 
 		// Execute the command after clicking the "Save" button.
 		this.listenTo( formView, 'submit', () => {
-			console.log( 'inside formview listener' );
-
 			// Grab values from the iframe fields.
 			const value = {
 				advisoryTitle: formView.advisoryTitleInput.fieldView.element.value,
@@ -80,9 +103,11 @@ export default class IframeUI extends Plugin {
 		return formView;
 	}
 
-	_showUI() {
+	_showUI( previousValue ) {
+		const { t } = this.editor.locale;
+
 		// Check the value of the command.
-		const commandValue = this.editor.commands.get( 'addIframe' ).value;
+		const commandValue = this.editor.commands.get( 'addIframe' ).value || previousValue;
 
 		this._balloon.add( {
 			view: this.formView,
@@ -94,20 +119,21 @@ export default class IframeUI extends Plugin {
 			this.formView.advisoryTitleInput.fieldView.value = commandValue.advisoryTitle;
 			this.formView.alignment = commandValue.alignment;
 			this.formView.alignmentDropdown.listView.element.value = commandValue.alignment;
+			this.formView.alignmentDropdown.buttonView.label = t( 'Align %0', commandValue.alignment );
 			this.formView.heightInput.fieldView.value = commandValue.height;
 			this.formView.longDescriptionInput.fieldView.value = commandValue.longDescription;
 			this.formView.nameInput.fieldView.value = commandValue.name;
 			this.formView.showBorderToggle.element.setAttribute( 'aria-pressed', ( commandValue.showBorders ? 'true' : 'false' ) );
 			this.formView.showBorders = Boolean( commandValue.showBorders );
-			if ( commandValue.showBorders ) {
-				this.formView.showBorderToggle.element.classList.add( 'ck-on' );
-				this.formView.showBorderToggle.element.classList.remove( 'ck-off' );
+			if ( !commandValue.showBorders ) {
+				this.formView.showBorderToggle.element.classList.remove( 'ck-on' );
+				this.formView.showBorderToggle.element.classList.add( 'ck-off' );
 			}
 			this.formView.showScrollbarsToggle.element.setAttribute( 'aria-pressed', ( commandValue.showScrollbars ? 'true' : 'false' ) );
 			this.formView.showScrollbars = Boolean( commandValue.showScrollbars );
-			if ( commandValue.showScrollbars ) {
-				this.formView.showScrollbarsToggle.element.classList.add( 'ck-on' );
-				this.formView.showScrollbarsToggle.element.classList.remove( 'ck-off' );
+			if ( !commandValue.showScrollbars ) {
+				this.formView.showScrollbarsToggle.element.classList.remove( 'ck-on' );
+				this.formView.showScrollbarsToggle.element.classList.add( 'ck-off' );
 			}
 			this.formView.urlInput.fieldView.value = commandValue.url;
 			this.formView.widthInput.fieldView.value = commandValue.width;
@@ -117,16 +143,21 @@ export default class IframeUI extends Plugin {
 	}
 
 	_hideUI( formView, t ) {
+		const borderElement = formView.showBorderToggle.element;
+		const scrollbarsElement = formView.showScrollbarsToggle.element;
+
 		// Clear the input field values and reset the form.
 		formView.advisoryTitleInput.fieldView.element.value = '';
 		formView.alignmentDropdown.buttonView.label = t( 'Alignment' );
 		formView.heightInput.fieldView.element.value = '';
 		formView.longDescriptionInput.fieldView.element.value = '';
 		formView.nameInput.fieldView.element.value = '';
-		formView.showBorderToggle.element.setAttribute( 'aria-pressed', 'false' );
-		formView.showBorderToggle.element.classList.remove( 'ck-on' );
-		formView.showScrollbarsToggle.element.setAttribute( 'aria-pressed', 'false' );
-		formView.showScrollbarsToggle.element.classList.remove( 'ck-on' );
+		borderElement.setAttribute( 'aria-pressed', 'true' );
+		borderElement.classList.remove( 'ck-off' );
+		borderElement.classList.add( 'ck-on' );
+		scrollbarsElement.setAttribute( 'aria-pressed', 'true' );
+		scrollbarsElement.classList.remove( 'ck-off' );
+		scrollbarsElement.classList.add( 'ck-on' );
 		formView.urlInput.fieldView.element.value = '';
 		formView.widthInput.fieldView.element.value = '';
 

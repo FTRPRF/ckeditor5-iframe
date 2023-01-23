@@ -5,7 +5,7 @@
 
 import { Command } from 'ckeditor5/src/core';
 import { findAttributeRange } from 'ckeditor5/src/typing';
-import getRangeText from './utils.js';
+import getRangeText, { getClosestSelectedIframe } from './utils.js';
 import { toMap } from 'ckeditor5/src/utils';
 
 export default class IframeCommand extends Command {
@@ -63,25 +63,37 @@ export default class IframeCommand extends Command {
 	execute( { advisoryTitle, alignment, height, longDescription, name, showBorders, showScrollbars, url, width } ) {
 		const model = this.editor.model;
 		const selection = model.document.selection;
+		const iframeElement = getClosestSelectedIframe( selection );
 
 		model.change( writer => {
+			const firstPosition = selection.getFirstPosition();
+
+			// Collect all attributes of the user selection (could be "bold", "italic", etc.)
+			const attributes = toMap( selection.getAttributes() );
+
+			// Put the new attribute to the map of attributes.
+			attributes.set( 'advisoryTitle', advisoryTitle );
+			attributes.set( 'alignment', alignment );
+			attributes.set( 'height', height );
+			attributes.set( 'longDescription', longDescription );
+			attributes.set( 'name', name );
+			attributes.set( 'showBorders', showBorders );
+			attributes.set( 'showScrollbars', showScrollbars );
+			attributes.set( 'url', url );
+			attributes.set( 'width', width );
+
+			if ( iframeElement ) {
+				// todo: this isn't ideal, better would be to just alter the changed properties but i cannot find how to do that.
+				model.deleteContent( selection );
+
+				const iframe = writer.createElement( 'iframe', attributes );
+				const { end: positionAfter } = model.insertContent( iframe, firstPosition );
+				writer.setSelection( positionAfter );
+
+				return;
+			}
+
 			if ( url !== '' ) {
-				const firstPosition = selection.getFirstPosition();
-
-				// Collect all attributes of the user selection (could be "bold", "italic", etc.)
-				const attributes = toMap( selection.getAttributes() );
-
-				// Put the new attribute to the map of attributes.
-				attributes.set( 'advisoryTitle', advisoryTitle );
-				attributes.set( 'alignment', alignment );
-				attributes.set( 'height', height );
-				attributes.set( 'longDescription', longDescription );
-				attributes.set( 'name', name );
-				attributes.set( 'showBorders', showBorders );
-				attributes.set( 'showScrollbars', showScrollbars );
-				attributes.set( 'url', url );
-				attributes.set( 'width', width );
-
 				// Inject the new node with the iframe and all selection attributes.
 				const iframe = writer.createElement( 'iframe', attributes );
 				const { end: positionAfter } = model.insertContent( iframe, firstPosition );

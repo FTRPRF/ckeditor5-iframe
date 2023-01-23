@@ -25,6 +25,7 @@ import Code from '@ckeditor/ckeditor5-basic-styles/src/code';
 
 import Iframe from '../src/Iframe';
 import Abbreviation from '../src/abbreviation/abbreviation';
+import IframeToolbar from '../src/IframeToolbar';
 
 /* global document, window */
 
@@ -32,7 +33,7 @@ ClassicEditor
 	.create( document.querySelector( '#editor' ), {
 		plugins: [
 			Iframe,
-			// IFrame,
+			IframeToolbar,
 			Abbreviation,
 			Essentials,
 			Autoformat,
@@ -82,13 +83,19 @@ ClassicEditor
 			'undo',
 			'redo'
 		],
+		iframe: {
+			toolbar: [
+				'iframe'
+			]
+		},
 		image: {
 			toolbar: [
 				'imageStyle:inline',
 				'imageStyle:block',
 				'imageStyle:side',
 				'|',
-				'imageTextAlternative'
+				'imageTextAlternative',
+				'iframe'
 			]
 		},
 		table: {
