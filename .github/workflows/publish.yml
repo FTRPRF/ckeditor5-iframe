@@ -12,8 +12,11 @@ jobs:
         steps:
             - uses: actions/checkout@v3
 
-            - name: use Node.js 14
+            - name: Setup Node
               uses: actions/setup-node@v3
+              with:
+                  node-version: 14
+                  registry-url: https://npm.pkg.github.com/
 
             - name: install
               run: npm install --ignore-scripts
@@ -22,6 +25,6 @@ jobs:
               run: npm run dll:build
 
             - name: publish
-              run: yarn publish
+              run: npm publish
               env:
-                  NODE_AUTH_TOKEN: ${{secrets.PUBLISH_TOKEN}}
+                  NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
