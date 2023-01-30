@@ -4,7 +4,7 @@
 			"name": "Iframe",
 			"className": "Iframe",
 			"description": "Adds an iframe to the editor.",
-			"path": "src/iframe.js",
+			"path": "./src/iframe.js",
 			"uiComponents": [
 				{
 					"type": "Button",
