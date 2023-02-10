@@ -1,8 +1,7 @@
 @ftrprf/ckeditor5-iframe
 ========================
 
-This package was created by the [ckeditor5-package-generator](https://www.npmjs.
-com/package/ckeditor5-package-generator) package.
+This package was created by the [ckeditor5-package-generator](https://www.npmjs.com/package/ckeditor5-package-generator) package.
 
 ## Table of contents
 
