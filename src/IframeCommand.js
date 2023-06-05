@@ -81,6 +81,9 @@ export default class IframeCommand extends Command {
 			attributes.set( 'showScrollbars', showScrollbars );
 			attributes.set( 'url', url );
 			attributes.set( 'width', width );
+			attributes.set( 'allow',
+				'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share;'
+			);
 
 			if ( iframeElement ) {
 				// todo: this isn't ideal, better would be to just alter the changed properties but i cannot find how to do that.
