@@ -11,6 +11,7 @@ export default class IframeEditing extends Plugin {
 	static get requires() {
 		return [ Widget ];
 	}
+
 	init() {
 		this._defineSchema();
 		this._defineConverters();
@@ -19,6 +20,7 @@ export default class IframeEditing extends Plugin {
 			'addIframe', new IframeCommand( this.editor )
 		);
 	}
+
 	_defineSchema() {
 		const schema = this.editor.model.schema;
 
@@ -38,51 +40,75 @@ export default class IframeEditing extends Plugin {
 			]
 		} );
 	}
+
 	_defineConverters() {
 		const conversion = this.editor.conversion;
 
-		// Conversion from a model attribute to a view element
-		conversion.for( 'downcast' ).elementToElement( {
-			model: {
-				name: 'iframe',
-				attributes: [
-					'advisoryTitle',
-					'alignment',
-					'height',
-					'longDescription',
-					'name',
-					'showBorders',
-					'showScrollbars',
-					'url',
-					'width'
-				]
-			},
-
-			// // Callback function provides access to the model attribute value
-			// // and the DowncastWriter
-			view: ( modelElement, { writer: downcastWriter } ) => {
+		// Editing Conversion: Model-to-View
+		conversion.for( 'editingDowncast' ).elementToElement( {
+			model: 'iframe',
+			view: ( modelElement, { writer } ) => {
 				const alignment = modelElement.getAttribute( 'alignment' );
 				const showBorders = modelElement.getAttribute( 'showBorders' );
 				const showScrollbars = modelElement.getAttribute( 'showScrollbars' );
 				const classNames = [
-					'ck ck-iframe',
-					( alignment ? ` ck-iframe-${ alignment }` : '' ),
-					( showBorders ? '' : ' ck-iframe-showNoBorders' ),
-					( showScrollbars ? '' : ' ck-iframe-showNoScrollbars' )
+					'ck',
+					'ck-iframe',
+					alignment ? `ck-iframe-${ alignment }` : '',
+					showBorders ? '' : 'ck-iframe-showNoBorders',
+					showScrollbars ? '' : 'ck-iframe-showNoScrollbars'
 				].join( ' ' );
 
-				return toWidget( downcastWriter.createContainerElement( 'iframe', {
+				const iframe = writer.createContainerElement( 'iframe', {
 					class: classNames,
 					'data-alignment': alignment,
 					'data-showBorders': showBorders,
-					'data-showScrollbars': modelElement.getAttribute( 'showScrollbars' ),
+					'data-showScrollbars': showScrollbars,
 					height: modelElement.getAttribute( 'height' ),
 					longDescription: modelElement.getAttribute( 'longDescription' ),
 					name: modelElement.getAttribute( 'name' ),
 					src: modelElement.getAttribute( 'url' ),
 					title: modelElement.getAttribute( 'advisoryTitle' ),
 					width: modelElement.getAttribute( 'width' )
-				} ), downcastWriter);
+				} );
+
+				// Make the iframe widget editable
+				writer.setCustomProperty( 'iframe', true, iframe );
+				return toWidget( iframe, writer, { label: 'iframe widget' } );
+			}
+		} );
+
+		// Data Conversion: Model-to-View
+		conversion.for( 'dataDowncast' ).elementToElement( {
+			model: 'iframe',
+			view: ( modelElement, { writer } ) => {
+				const alignment = modelElement.getAttribute( 'alignment' );
+				const showBorders = modelElement.getAttribute( 'showBorders' );
+				const showScrollbars = modelElement.getAttribute( 'showScrollbars' );
+				const classNames = [
+					'ck',
+					'ck-iframe',
+					alignment ? `ck-iframe-${ alignment }` : '',
+					showBorders ? '' : 'ck-iframe-showNoBorders',
+					showScrollbars ? '' : 'ck-iframe-showNoScrollbars'
+				].join( ' ' );
+
+				const iframe = writer.createContainerElement( 'iframe', {
+					class: classNames,
+					'data-alignment': alignment,
+					'data-showBorders': showBorders,
+					'data-showScrollbars': showScrollbars,
+					height: modelElement.getAttribute( 'height' ),
+					longDescription: modelElement.getAttribute( 'longDescription' ),
+					name: modelElement.getAttribute( 'name' ),
+					src: modelElement.getAttribute( 'url' ),
+					title: modelElement.getAttribute( 'advisoryTitle' ),
+					width: modelElement.getAttribute( 'width' )
+				} );
+
+				writer.setCustomProperty( 'iframe', true, iframe );
+
+				return iframe;
 			}
 		} );
 
