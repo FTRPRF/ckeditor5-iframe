@@ -24,7 +24,6 @@ import CodeBlock from '@ckeditor/ckeditor5-code-block/src/codeblock';
 import Code from '@ckeditor/ckeditor5-basic-styles/src/code';
 
 import Iframe from '../src/Iframe';
-import Abbreviation from '../src/abbreviation/abbreviation';
 import IframeToolbar from '../src/IframeToolbar';
 
 /* global document, window */
@@ -34,7 +33,6 @@ ClassicEditor
 		plugins: [
 			Iframe,
 			IframeToolbar,
-			Abbreviation,
 			Essentials,
 			Autoformat,
 			BlockQuote,
@@ -60,7 +58,6 @@ ClassicEditor
 		toolbar: [
 			'iframe',
 			// 'IFrameButton',
-			'abbreviation',
 			'|',
 			'heading',
 			'|',
@@ -94,8 +91,7 @@ ClassicEditor
 				'imageStyle:block',
 				'imageStyle:side',
 				'|',
-				'imageTextAlternative',
-				'iframe'
+				'imageTextAlternative'
 			]
 		},
 		table: {
