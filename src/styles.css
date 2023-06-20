@@ -9,6 +9,7 @@
 }
 
 .ck.ck-iframe.ck-iframe-showNoBorders {
+	/* stylelint-disable-next-line declaration-property-value-disallowed-list */
 	border: 1px solid #333;
 }
 
