@@ -5,7 +5,7 @@
 
 import { Plugin } from 'ckeditor5/src/core';
 import IframeCommand from './IframeCommand';
-import { toWidget, Widget } from 'ckeditor5/src/widget';
+import { toWidget, Widget, viewToModelPositionOutsideModelElement } from 'ckeditor5/src/widget';
 
 export default class IframeEditing extends Plugin {
 	static get requires() {
@@ -19,6 +19,11 @@ export default class IframeEditing extends Plugin {
 		this.editor.commands.add(
 			'addIframe', new IframeCommand( this.editor )
 		);
+
+		this.editor.editing.mapper.on(
+			'viewToModelPosition',
+			viewToModelPositionOutsideModelElement( this.editor.model, viewElement => viewElement.hasClass( 'iframe' ) )
+		);
 	}
 
 	_defineSchema() {
@@ -26,7 +31,8 @@ export default class IframeEditing extends Plugin {
 
 		// Extend the text node's schema to accept the abbreviation attribute.
 		schema.register( 'iframe', {
-			inheritAllFrom: '$blockObject',
+			allowWhere: '$text',
+			inheritAllFrom: '$inlineObject',
 			allowAttributes: [
 				'advisoryTitle',
 				'alignment',
@@ -64,21 +70,10 @@ export default class IframeEditing extends Plugin {
 		conversion.for( 'upcast' ).elementToElement( {
 			view: {
 				name: 'iframe',
-				classes: [ 'ck-iframe', 'ck' ],
-				attributes: [
-					'data-alignment',
-					'data-showBorders',
-					'data-showScrollbars',
-					'height',
-					'longDescription',
-					'name',
-					'src',
-					'title',
-					'width'
-				]
+				classes: [ 'ck-iframe', 'iframe' ]
 			},
 			model: ( viewElement, { writer: upcastWriter } ) => {
-				return upcastWriter.createContainerElement( 'iframe', {
+				return upcastWriter.createElement( 'iframe', {
 					advisoryTitle: viewElement.getAttribute( 'title' ),
 					alignment: viewElement.getAttribute( 'data-alignment' ),
 					height: viewElement.getAttribute( 'height' ),
@@ -98,6 +93,7 @@ export default class IframeEditing extends Plugin {
 			const showScrollbars = modelItem.getAttribute( 'showScrollbars' );
 			const classNames = [
 				'ck',
+				'iframe',
 				'ck-iframe',
 				alignment ? `ck-iframe-${ alignment }` : '',
 				showBorders ? '' : 'ck-iframe-showNoBorders',
