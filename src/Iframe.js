@@ -11,4 +11,8 @@ export default class Iframe extends Plugin {
 	static get requires() {
 		return [ IframeEditing, IframeUI ];
 	}
+
+	static get pluginName() {
+		return 'iframe';
+	}
 }
