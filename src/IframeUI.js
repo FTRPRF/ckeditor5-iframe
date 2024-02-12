@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /**
  * @license Copyright (c) 2003-2022, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md.
@@ -69,7 +70,7 @@ export default class IframeUI extends Plugin {
 
 		// Clear the input field values and reset the form.
 		formView.advisoryTitleInput.fieldView.element.value = '';
-		formView.alignmentDropdown.buttonView.label = t( 'Alignment' );
+		// formView.alignmentDropdown.buttonView.label = t( 'Alignment' );
 		formView.heightInput.fieldView.element.value = '';
 		formView.longDescriptionInput.fieldView.element.value = '';
 		formView.nameInput.fieldView.element.value = '';
@@ -144,8 +145,8 @@ export default class IframeUI extends Plugin {
 			this.formView.advisoryTitleInput.fieldView.value = '';
 			this.formView.advisoryTitleInput.fieldView.value = commandValue.advisoryTitle;
 			this.formView.alignment = commandValue.alignment;
-			this.formView.alignmentDropdown.listView.element.value = commandValue.alignment;
-			this.formView.alignmentDropdown.buttonView.label = t( 'Align %0', commandValue.alignment );
+			// this.formView.alignmentDropdown.listView.element.value = commandValue.alignment;
+			// this.formView.alignmentDropdown.buttonView.label = t( 'Align %0', commandValue.alignment );
 			this.formView.heightInput.fieldView.value = '';
 			this.formView.heightInput.fieldView.value = commandValue.height;
 			this.formView.longDescriptionInput.fieldView.value = '';
