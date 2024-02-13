@@ -11,7 +11,7 @@ import {
 	createLabeledInputText,
 	FocusCycler,
 	LabeledFieldView,
-	Model,
+	ViewModel as Model,
 	submitHandler,
 	SwitchButtonView,
 	View
@@ -253,19 +253,17 @@ export default class FormView extends View {
 		const items = new Collection();
 
 		options.forEach( option => {
-			const button = this._createButton(option.text, option.icon, option.className);
-			// const buttonObject = {
-			// 	type: 'button',
-			// 	option,
-			// 	model: new Model( {
-			// 		class: option.className,
-			// 		icon: option.icon,
-			// 		label: option.text,
-			// 		withText: true
-			// 	} )
-			// };
-			buttons[ option.text ] = button;
-			items.add( button );
+			const buttonObject = {
+				type: 'button',
+				model: new Model( {
+					class: option.className,
+					icon: option.icon,
+					label: option.text,
+					withText: true
+				} )
+			};
+			buttons[ option.text ] = { ...buttonObject, option };
+			items.add( buttonObject );
 		} );
 
 		addListToDropdown( dropdown, items );
