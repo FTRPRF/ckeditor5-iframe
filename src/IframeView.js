@@ -252,20 +252,20 @@ export default class FormView extends View {
 
 		const items = new Collection();
 
-		options.forEach( option => {
-			const buttonObject = {
-				type: 'button',
-				option,
-				model: new Model( {
-					class: option.className,
-					icon: option.icon,
-					label: option.text,
-					withText: true
-				} )
-			};
-			buttons[ option.text ] = buttonObject;
-			items.add( buttonObject );
-		} );
+		// options.forEach( option => {
+		// 	const buttonObject = {
+		// 		type: 'button',
+		// 		option,
+		// 		model: new Model( {
+		// 			class: option.className,
+		// 			icon: option.icon,
+		// 			label: option.text,
+		// 			withText: true
+		// 		} )
+		// 	};
+		// 	buttons[ option.text ] = buttonObject;
+		// 	items.add( buttonObject );
+		// } );
 
 		// addListToDropdown( dropdown, items );
 		//
