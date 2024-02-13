@@ -252,31 +252,32 @@ export default class FormView extends View {
 
 		const items = new Collection();
 
-		// options.forEach( option => {
-		// 	const buttonObject = {
-		// 		type: 'button',
-		// 		option,
-		// 		model: new Model( {
-		// 			class: option.className,
-		// 			icon: option.icon,
-		// 			label: option.text,
-		// 			withText: true
-		// 		} )
-		// 	};
-		// 	buttons[ option.text ] = buttonObject;
-		// 	items.add( buttonObject );
-		// } );
+		options.forEach( option => {
+			const button = this._createButton(option.text, option.icon, option.className);
+			// const buttonObject = {
+			// 	type: 'button',
+			// 	option,
+			// 	model: new Model( {
+			// 		class: option.className,
+			// 		icon: option.icon,
+			// 		label: option.text,
+			// 		withText: true
+			// 	} )
+			// };
+			buttons[ option.text ] = button;
+			items.add( button );
+		} );
 
-		// addListToDropdown( dropdown, items );
-		//
-		// this.listenTo( dropdown, 'execute', evt => {
-		// 	const choice = evt.source.element.textContent;
-		// 	const buttonOptions = buttons[ choice ].option;
-		// 	dropdown.buttonView.label = this.t( 'Align %0', buttonOptions.text );
-		// 	this.alignment = choice;
-		// } );
+		addListToDropdown( dropdown, items );
 
-		// this.alignment = this.t( 'middle' ); // default alignment
+		this.listenTo( dropdown, 'execute', evt => {
+			const choice = evt.source.element.textContent;
+			const buttonOptions = buttons[ choice ].option;
+			dropdown.buttonView.label = this.t( 'Align %0', buttonOptions.text );
+			this.alignment = choice;
+		} );
+
+		this.alignment = this.t( 'middle' ); // default alignment
 		dropdown.render();
 		return dropdown;
 	}
