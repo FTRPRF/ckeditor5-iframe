@@ -267,16 +267,16 @@ export default class FormView extends View {
 			items.add( buttonObject );
 		} );
 
-		addListToDropdown( dropdown, items );
+		// addListToDropdown( dropdown, items );
+		//
+		// this.listenTo( dropdown, 'execute', evt => {
+		// 	const choice = evt.source.element.textContent;
+		// 	const buttonOptions = buttons[ choice ].option;
+		// 	dropdown.buttonView.label = this.t( 'Align %0', buttonOptions.text );
+		// 	this.alignment = choice;
+		// } );
 
-		this.listenTo( dropdown, 'execute', evt => {
-			const choice = evt.source.element.textContent;
-			const buttonOptions = buttons[ choice ].option;
-			dropdown.buttonView.label = this.t( 'Align %0', buttonOptions.text );
-			this.alignment = choice;
-		} );
-
-		this.alignment = this.t( 'middle' ); // default alignment
+		// this.alignment = this.t( 'middle' ); // default alignment
 		dropdown.render();
 		return dropdown;
 	}
