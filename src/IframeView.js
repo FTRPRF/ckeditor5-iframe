@@ -82,7 +82,7 @@ export default class FormView extends View {
 
 		this.advisoryTitleInput = null;
 		this.alignment = null;
-		// this.alignmentDropdown = null;
+		this.alignmentDropdown = null;
 		this.buttonRow = null;
 		this.cancelButton = null;
 		this.childViews = null;
@@ -310,11 +310,11 @@ export default class FormView extends View {
 			'ck ck-iframe-longdesc',
 			t( 'LongDescInfo' )
 		);
-		// this.alignmentDropdown = this._createDropdown( t( 'Alignment' ), [
-		// 	{ icon: icons.alignLeft, text: t( 'left' ), className: 'ck ck-iframe-alignleft' },
-		// 	{ icon: icons.alignCenter, text: t( 'middle' ), className: 'ck ck-iframe-alignmiddle' },
-		// 	{ icon: icons.alignRight, text: t( 'right' ), className: 'ck ck-iframe-alignright' }
-		// ], 'ck ck-iframe-alignment' );
+		this.alignmentDropdown = this._createDropdown( t( 'Alignment' ), [
+			{ icon: icons.alignLeft, text: t( 'left' ), className: 'ck ck-iframe-alignleft' },
+			{ icon: icons.alignCenter, text: t( 'middle' ), className: 'ck ck-iframe-alignmiddle' },
+			{ icon: icons.alignRight, text: t( 'right' ), className: 'ck ck-iframe-alignright' }
+		], 'ck ck-iframe-alignment' );
 		this.showScrollbarsToggle = this._createCheckbox( t( 'Scrollbars' ), 'ck ck-iframe-scrollbars', 'showScrollbars' );
 		this.showBorderToggle = this._createCheckbox( t( 'Borders' ), 'ck ck-iframe-borders', 'showBorders' );
 		this.okButton = this._createButton( t( 'OK' ), icons.check, 'ck-iframe-button-ok ck-button-save' );
@@ -338,7 +338,7 @@ export default class FormView extends View {
 			this.urlInput,
 			this.widthInput,
 			this.heightInput,
-			// this.alignmentDropdown,
+			this.alignmentDropdown,
 			this.showScrollbarsToggle,
 			this.showBorderToggle,
 			this.nameInput,
@@ -367,8 +367,8 @@ export default class FormView extends View {
 	_createRows() {
 		this.secondRow = this.createCollection( [
 			this.widthInput,
-			this.heightInput
-			// this.alignmentDropdown
+			this.heightInput,
+			this.alignmentDropdown
 		] );
 
 		this.thirdRow = this.createCollection( [
@@ -451,7 +451,7 @@ export default class FormView extends View {
 
 	resetFormStatus() {
 		this.advisoryTitleInput.errorText = '';
-		// this.alignmentDropdown.errorText = '';
+		this.alignmentDropdown.errorText = '';
 		this.heightInput.errorText = '';
 		this.longDescriptionInput.errorText = '';
 		this.nameInput.errorText = '';
