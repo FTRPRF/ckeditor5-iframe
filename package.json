@@ -1,6 +1,6 @@
 {
   "name": "@ftrprf/ckeditor5-iframe",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A plugin for CKEditor 5.",
   "keywords": [
     "ckeditor",

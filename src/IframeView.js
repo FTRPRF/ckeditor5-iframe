@@ -11,7 +11,7 @@ import {
 	createLabeledInputText,
 	FocusCycler,
 	LabeledFieldView,
-	ViewModel as Model,
+	ViewModel,
 	submitHandler,
 	SwitchButtonView,
 	View
@@ -255,10 +255,11 @@ export default class FormView extends View {
 		options.forEach( option => {
 			const buttonObject = {
 				type: 'button',
-				model: new Model( {
+				model: new ViewModel( {
 					class: option.className,
 					icon: option.icon,
 					label: option.text,
+					role: 'menuitemradio',
 					withText: true
 				} )
 			};
