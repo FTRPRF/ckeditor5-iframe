@@ -17,9 +17,9 @@ jobs:
               with:
                   node-version: 14
                   registry-url: https://npm.pkg.github.com/
-                  
+
             - name: cache node modules
-              uses: actions/cache@v2
+              uses: actions/cache@v3
               with:
                   path: "**/node_modules"
                   key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
