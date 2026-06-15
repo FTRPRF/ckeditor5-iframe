@@ -42,7 +42,7 @@
     "@ckeditor/ckeditor5-link": ">=35.4.0",
     "@ckeditor/ckeditor5-list": ">=35.4.0",
     "@ckeditor/ckeditor5-media-embed": ">=35.4.0",
-    "@ckeditor/ckeditor5-package-tools": "^1.0.0-beta.8",
+    "@ckeditor/ckeditor5-package-tools": "^5.1.0",
     "@ckeditor/ckeditor5-paragraph": ">=35.4.0",
     "@ckeditor/ckeditor5-table": ">=35.4.0",
     "@ckeditor/ckeditor5-theme-lark": ">=35.4.0",
